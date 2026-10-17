@@ -41,22 +41,3 @@ render_schedule <- function(target_day) {
     rownames = FALSE
   )
 }
-```
-
-## Thursday
-
-```{r}
-render_schedule("Thurs")
-```
-
-## Friday
-
-```{r}
-render_schedule("Fri")
-```
-
-## Saturday
-
-```{r}
-render_schedule("Sat")
-```
