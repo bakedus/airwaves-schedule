@@ -16,10 +16,8 @@ jobs:
       - name: Install required R packages
         run: Rscript -e 'install.packages(c("tidyverse","DT"), repos="https://cran.rstudio.com")'
 
-      - name: Install Quarto CLI
-        uses: quarto-dev/quarto-action@v2
-        with:
-          install: true
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render site
         run: quarto render --no-preview
