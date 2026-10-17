@@ -1,0 +1,40 @@
+---
+title: "Iceland Airwaves Full Schedule & Planner"
+format: 
+  html:
+    theme: cosmo
+    toc: false
+    page-layout: full
+execute:
+  echo: false
+  warning: false
+---
+
+```{r}
+library(tidyverse)
+library(DT)
+
+# Load the comprehensive schedule dataset
+schedule <- read_csv("schedule.csv")
+
+# Function to render clean interactive mobile-friendly search tables
+render_schedule <- function(target_day) {
+  df <- schedule %>% 
+    filter(day == target_day) %>%
+    mutate(
+      Artist = if_else(highlight, paste0("⭐ **<span style='color:#d9534f; font-size:1.1em;'>", artist, "</span>**"), artist)
+    ) %>%
+    select(Time = time, Venue = venue, Artist, Highlight = highlight)
+  
+  datatable(
+    df,
+    options = list(
+      pageLength = 100,
+      dom = 'ft',  # Built-in live search box + table layout optimized for phones
+      ordering = TRUE,
+      responsive = TRUE
+    ),
+    escape = FALSE,
+    rownames = FALSE
+  )
+}
