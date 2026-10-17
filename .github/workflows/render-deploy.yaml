@@ -1,0 +1,31 @@
+name: Render and deploy Quarto site
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  render-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Install required R packages
+        run: Rscript -e 'install.packages(c("tidyverse","DT"), repos="https://cran.rstudio.com")'
+
+      - name: Install Quarto CLI
+        uses: quarto-dev/quarto-action@v2
+        with:
+          install: true
+
+      - name: Render site
+        run: quarto render --no-preview
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
