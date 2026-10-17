@@ -11,26 +11,29 @@ execute:
 ---
 
 ```{r}
-library(tidyverse)
+#| include: false
 library(DT)
 
-# Load the comprehensive schedule dataset
-schedule <- read_csv("schedule.csv")
+schedule <- read.csv("schedule.csv", stringsAsFactors = FALSE)
+schedule$highlight <- tolower(trimws(schedule$highlight))
 
-# Function to render clean interactive mobile-friendly search tables
 render_schedule <- function(target_day) {
-  df <- schedule %>% 
-    filter(day == target_day) %>%
-    mutate(
-      Artist = if_else(highlight, paste0("⭐ **<span style='color:#d9534f; font-size:1.1em;'>", artist, "</span>**"), artist)
-    ) %>%
-    select(Time = time, Venue = venue, Artist, Highlight = highlight)
-  
-  datatable(
+  df <- subset(schedule, day == target_day)
+
+  df$Artist <- ifelse(
+    df$highlight == "yes",
+    sprintf("⭐ **<span style='color:#d9534f; font-size:1.1em;'>%s</span>**", df$artist),
+    df$artist
+  )
+
+  df <- df[, c("time", "venue", "Artist", "highlight")]
+  names(df) <- c("Time", "Venue", "Artist", "Highlight")
+
+  DT::datatable(
     df,
     options = list(
       pageLength = 100,
-      dom = 'ft',  # Built-in live search box + table layout optimized for phones
+      dom = "ft",
       ordering = TRUE,
       responsive = TRUE
     ),
@@ -38,3 +41,22 @@ render_schedule <- function(target_day) {
     rownames = FALSE
   )
 }
+```
+
+## Thursday
+
+```{r}
+render_schedule("Thurs")
+```
+
+## Friday
+
+```{r}
+render_schedule("Fri")
+```
+
+## Saturday
+
+```{r}
+render_schedule("Sat")
+```
