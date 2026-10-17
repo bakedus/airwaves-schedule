@@ -1,0 +1,9 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Iceland Airwaves Full Schedule & Planner",
+    "section": "",
+    "text": "#| include: false library(DT)\nschedule &lt;- read.csv(“schedule.csv”, stringsAsFactors = FALSE) schedule\\(highlight &lt;- tolower(trimws(schedule\\)highlight))\nrender_schedule &lt;- function(target_day) { df &lt;- subset(schedule, day == target_day)\ndf\\(Artist &lt;- ifelse(\n    df\\)highlight == “yes”, sprintf(“⭐ %s”, df\\(artist),\n    df\\)artist )\ndf &lt;- df[, c(“time”, “venue”, “Artist”, “highlight”)] names(df) &lt;- c(“Time”, “Venue”, “Artist”, “Highlight”)\nDT::datatable( df, options = list( pageLength = 100, dom = “ft”, ordering = TRUE, responsive = TRUE ), escape = FALSE, rownames = FALSE ) }"
+  }
+]
