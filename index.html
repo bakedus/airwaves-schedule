@@ -493,8 +493,8 @@
     }
 
     toggleBtn.addEventListener("click", () => {
-      if (!hasHighlightColumn) return;
       showFavouritesOnly = !showFavouritesOnly;
+      toggleBtn.textContent = showFavouritesOnly ? "All Artists" : "Favourites Only";
       render();
     });
 
