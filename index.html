@@ -418,10 +418,21 @@
 
       const times = [...new Set(list.map(p => p.time))]
         .sort((a, b) => {
-          const [ah, am] = a.split(":").map(Number);
-          const [bh, bm] = b.split(":").map(Number);
-          return ah * 60 + am - (bh * 60 + bm);
+          function scheduleMinutes(time) {
+            const [hours, minutes] = time.split(":").map(Number);
+            let total = hours * 60 + minutes;
+      
+            // Treat midnight through 03:00 as the end of the day.
+            if (hours <= 3) {
+              total += 24 * 60;
+            }
+      
+            return total;
+          }
+      
+          return scheduleMinutes(a) - scheduleMinutes(b);
         });
+
 
       const bySlot = new Map();
 
