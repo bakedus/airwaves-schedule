@@ -62,13 +62,15 @@
 
     #tableWrap {
       overflow-x: auto;
+      overflow-y: auto;
+      max-height: 75vh;
       margin-top: 1rem;
       position: relative;
     }
 
     table {
       width: 100%;
-      min-width: 700px;
+      min-width: 800px;
       border-collapse: separate;
       border-spacing: 0;
       table-layout: fixed;
@@ -77,24 +79,28 @@
     th, td {
       border-right: 1px solid #e5e7eb;
       border-bottom: 1px solid #e5e7eb;
-      padding: .65rem;
+      padding: 0;
       text-align: left;
       vertical-align: top;
-      background: #fff; /* Default background for cells */
+      background: #fff;
+      height: 20px; /* Each 10-min block height */
     }
 
     /* Sticky Times Column */
     th:first-child, td:first-child {
       position: sticky;
       left: 0;
-      width: 85px;
+      width: 75px;
       background: #f5f5f5;
       font-weight: 600;
-      z-index: 2; /* Ensures time column stays on top of horizontal content */
+      z-index: 2;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #555;
     }
 
     thead th:first-child {
-      z-index: 3; /* Top-left corner needs to sit above both sticky column and header row */
+      z-index: 3;
     }
 
     thead th {
@@ -102,25 +108,52 @@
       position: sticky;
       top: 0;
       z-index: 1;
+      padding: .65rem;
+      text-align: left;
+      font-weight: 600;
     }
 
-    tbody tr:nth-child(even) td:not(:first-child) {
-      background: #fafafa;
+    /* Performance card block styling */
+    .show-block {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      background: #e3f2fd;
+      border: 1px solid #90caf9;
+      border-radius: 4px;
+      padding: 4px 6px;
+      overflow: hidden;
+      font-size: 0.85rem;
+      box-sizing: border-box;
+    }
+
+    .show-block.fav {
+      background: #ffebee !important;
+      border-color: #ef9a9a !important;
+    }
+
+    .show-block.fav .artist {
+      color: #b42332;
+      font-weight: 700;
+    }
+
+    .venue-cell {
+      position: relative;
+      padding: 0 !important;
     }
 
     .artist {
       display: block;
-      margin-bottom: .2rem;
       overflow-wrap: anywhere;
+      line-height: 1.2;
     }
 
-    .fav {
-      background: #fff0f0 !important;
-    }
-
-    .fav .artist {
-      color: #b42332;
-      font-weight: 750;
+    .time-sub {
+      font-size: 0.75rem;
+      color: #666;
+      margin-bottom: 2px;
     }
 
     .star {
@@ -128,16 +161,11 @@
       margin-right: .2rem;
     }
 
-    .empty {
-      color: #999;
-    }
-
     .muted { color: #666; }
 
     @media (max-width: 640px) {
       body { margin-top: 1rem; padding: 0 .5rem; }
       h1 { font-size: 1.3rem; }
-      th, td { padding: .45rem; }
     }
   </style>
 </head>
@@ -171,7 +199,6 @@
   <script>
     const CSV_PATH = "schedule.csv";
 
-    // Accepted CSV column names.
     const ALIASES = {
       day: ["day", "weekday", "festival_day"],
       time: ["time", "start_time", "start"],
@@ -204,7 +231,6 @@
 
     function normalizeDay(value) {
       const v = normalize(value);
-
       const days = {
         mon: "Monday", monday: "Monday",
         tue: "Tuesday", tues: "Tuesday", tuesday: "Tuesday",
@@ -215,7 +241,6 @@
         sat: "Saturday", saturday: "Saturday",
         sun: "Sunday", sunday: "Sunday"
       };
-
       return days[v] || String(value ?? "").trim();
     }
 
@@ -247,19 +272,27 @@
       })[ch]);
     }
 
+    function timeToMinutes(timeStr) {
+      const [h, m] = timeStr.split(":").map(Number);
+      let total = h * 60 + m;
+      if (h <= 3) total += 24 * 60; // Treat late night/early morning properly
+      return total;
+    }
+
+    function minutesToTime(totalMinutes) {
+      let m = totalMinutes % (24 * 60);
+      const hours = Math.floor(m / 60);
+      const mins = m % 60;
+      return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    }
+
     function parseRows(data, meta) {
       const headers = meta.fields || Object.keys(data[0] || {});
-
       let mapping = {};
       for (const field of Object.keys(ALIASES)) {
         mapping[field] = findHeader(headers, ALIASES[field]);
       }
 
-      // Detect the shifted layout in which:
-      // time contains the day, venue contains the time,
-      // artist contains the venue, and highlight contains
-      // the artist. The actual highlight flag is in the
-      // otherwise unnamed final column.
       const sample = data.find(r =>
         Object.values(r).some(v => String(v ?? "").trim() !== "")
       );
@@ -272,12 +305,9 @@
           DAY_ORDER.includes(normalizeDay(sample[mapping.time]))) {
 
         const originalHeaders = headers;
-        const originalHighlightIndex =
-          originalHeaders.indexOf(mapping.highlight);
-
+        const originalHighlightIndex = originalHeaders.indexOf(mapping.highlight);
         const extraHeader = originalHeaders.find(h =>
-          normalize(h) === "" ||
-          normalize(h).startsWith("__parsed_extra")
+          normalize(h) === "" || normalize(h).startsWith("__parsed_extra")
         );
 
         mapping = {
@@ -285,32 +315,20 @@
           time: mapping.venue,
           venue: mapping.artist,
           artist: mapping.highlight,
-          highlight: extraHeader ||
-            (originalHighlightIndex >= 0
-              ? "__parsed_extra"
-              : null)
+          highlight: extraHeader || (originalHighlightIndex >= 0 ? "__parsed_extra" : null)
         };
       }
 
-      if (!mapping.day || !mapping.time ||
-          !mapping.venue || !mapping.artist) {
-        throw new Error(
-          "Required columns not found. Expected day, time, venue and artist."
-        );
+      if (!mapping.day || !mapping.time || !mapping.venue || !mapping.artist) {
+        throw new Error("Required columns not found.");
       }
 
       hasHighlightColumn = Boolean(mapping.highlight);
 
-      // A trailing unnamed CSV field can be represented by
-      // Papa Parse as __parsed_extra rather than a normal key.
       performances = data.map(row => {
         const extra = row.__parsed_extra;
-        let highlight = mapping.highlight
-          ? row[mapping.highlight]
-          : "";
-
-        if (mapping.highlight === "__parsed_extra" ||
-            (Array.isArray(extra) && !highlight)) {
+        let highlight = mapping.highlight ? row[mapping.highlight] : "";
+        if (mapping.highlight === "__parsed_extra" || (Array.isArray(extra) && !highlight)) {
           highlight = Array.isArray(extra) ? extra[0] : highlight;
         }
 
@@ -336,30 +354,14 @@
         transformHeader: h => h.trim(),
         complete(result) {
           try {
-            if (!result.data.length) {
-              throw new Error("The CSV file contains no data.");
-            }
-
+            if (!result.data.length) throw new Error("The CSV file contains no data.");
             parseRows(result.data, result.meta);
-
-            if (!performances.length) {
-              throw new Error("No valid performances were found.");
-            }
-
-            if (result.errors.length) {
-              console.warn("CSV parsing warnings:", result.errors);
-            }
+            if (!performances.length) throw new Error("No valid performances were found.");
 
             populateDays();
-
             toggleBtn.disabled = !hasHighlightColumn;
-            toggleBtn.textContent = showFavouritesOnly
-              ? "Show all artists"
-              : "Show favourites only";
-
-            status.textContent =
-              `Loaded ${performances.length} performances.`;
-
+            toggleBtn.textContent = showFavouritesOnly ? "Show all artists" : "Show favourites only";
+            status.textContent = `Loaded ${performances.length} performances.`;
             render();
           } catch (error) {
             performances = [];
@@ -379,7 +381,6 @@
 
     function populateDays() {
       const previousDay = daySelect.value;
-
       const days = [...new Set(performances.map(p => p.day))];
       days.sort((a, b) => {
         const ai = DAY_ORDER.indexOf(a);
@@ -395,112 +396,100 @@
       ).join("");
 
       daySelect.disabled = days.length === 0;
-
-      if (days.includes(previousDay)) {
-        daySelect.value = previousDay;
-      }
-
+      if (days.includes(previousDay)) daySelect.value = previousDay;
       daySelect.onchange = render;
     }
 
     function render() {
       const selectedDay = daySelect.value;
-
       let list = performances.filter(p => p.day === selectedDay);
 
       if (showFavouritesOnly && hasHighlightColumn) {
         list = list.filter(p => isTruthy(p.highlight));
       }
 
-      toggleBtn.textContent = showFavouritesOnly
-        ? "Show all artists"
-        : "Show favourites only";
-
       if (!list.length) {
-        tableWrap.innerHTML =
-          '<p class="muted">No performances match this selection.</p>';
+        tableWrap.innerHTML = '<p class="muted">No performances match this selection.</p>';
         status.textContent = "No performances to display.";
         return;
       }
 
-      const venues = [...new Set(list.map(p => p.venue))]
-        .sort((a, b) => a.localeCompare(b));
+      const venues = [...new Set(list.map(p => p.venue))].sort((a, b) => a.localeCompare(b));
 
-      const times = [...new Set(list.map(p => p.time))]
-        .sort((a, b) => {
-          function scheduleMinutes(time) {
-            const [hours, minutes] = time.split(":").map(Number);
-            let total = hours * 60 + minutes;
-      
-            // Treat midnight through 03:00 as the end of the day.
-            if (hours <= 3) {
-              total += 24 * 60;
-            }
-      
-            return total;
-          }
-      
-          return scheduleMinutes(a) - scheduleMinutes(b);
-        });
+      let minMin = Infinity;
+      let maxMin = -Infinity;
 
+      list.forEach(p => {
+        const start = timeToMinutes(p.time);
+        const end = start + 40;
+        if (start < minMin) minMin = start;
+        if (end > maxMin) maxMin = end;
+      });
 
-      const bySlot = new Map();
+      minMin = Math.floor(minMin / 10) * 10;
+      maxMin = Math.ceil(maxMin / 10) * 10;
 
-      for (const p of list) {
-        const key = `${p.time}\u0000${p.venue}`;
-        if (!bySlot.has(key)) bySlot.set(key, []);
-        bySlot.get(key).push(p);
+      const slotRows = [];
+      for (let m = minMin; m < maxMin; m += 10) {
+        slotRows.push(m);
       }
+
+      const venueMap = {};
+      venues.forEach(v => venueMap[v] = []);
+      list.forEach(p => {
+        if (venueMap[p.venue]) {
+          venueMap[p.venue].push({
+            ...p,
+            startMin: timeToMinutes(p.time),
+            endMin: timeToMinutes(p.time) + 40
+          });
+        }
+      });
 
       let html = "<table><thead><tr>";
       html += '<th scope="col">Time</th>';
-
-      for (const venue of venues) {
-        html += `<th scope="col">${escapeHtml(venue)}</th>`;
-      }
-
+      venues.forEach(v => html += `<th scope="col">${escapeHtml(v)}</th>`);
       html += "</tr></thead><tbody>";
 
-      for (const time of times) {
-        html += `<tr><th scope="row">${escapeHtml(time)}</th>`;
+      slotRows.forEach(slotMin => {
+        const timeLabel = minutesToTime(slotMin);
+        html += `<tr><th scope="row">${timeLabel}</th>`;
 
-        for (const venue of venues) {
-          const key = `${time}\u0000${venue}`;
-          const acts = bySlot.get(key) || [];
+        venues.forEach(venue => {
+          const actsInVenue = venueMap[venue] || [];
+          const matchingAct = actsInVenue.find(a => a.startMin === slotMin);
 
-          if (!acts.length) {
-            html += '<td><span class="empty">—</span></td>';
-            continue;
-          }
+          if (matchingAct) {
+            const rowSpan = 4; 
+            const fav = hasHighlightColumn && isTruthy(matchingAct.highlight);
+            const endTimeStr = minutesToTime(matchingAct.endMin);
 
-          html += "<td>";
-
-          for (const p of acts) {
-            const favourite = hasHighlightColumn &&
-              isTruthy(p.highlight);
-
-            html += `<div class="${favourite ? "fav" : ""}">`;
-
-            if (favourite) {
-              html += '<span class="star" aria-label="Favourite">★</span>';
+            html += `<td class="venue-cell" rowspan="${rowSpan}">`;
+            html += `<div class="show-block ${fav ? 'fav' : ''}">`;
+            
+            if (fav) {
+              html += `<div class="time-sub"><span class="star" aria-label="Favourite">★</span>${escapeHtml(matchingAct.time)} - ${endTimeStr}</div>`;
+            } else {
+              html += `<div class="time-sub">${escapeHtml(matchingAct.time)} - ${endTimeStr}</div>`;
             }
 
-            html += `<span class="artist">${escapeHtml(p.artist)}</span>`;
-            html += "</div>";
+            html += `<span class="artist">${escapeHtml(matchingAct.artist)}</span>`;
+            html += `</div></td>`;
+          } else {
+            const coveredByShow = actsInVenue.some(a => slotMin > a.startMin && slotMin < a.endMin);
+            if (!coveredByShow) {
+              html += '<td></td>';
+            }
           }
-
-          html += "</td>";
-        }
+        });
 
         html += "</tr>";
-      }
+      });
 
       html += "</tbody></table>";
       tableWrap.innerHTML = html;
 
-      status.textContent =
-        `${selectedDay}: ${list.length} performances across ${venues.length} venues` +
-        (showFavouritesOnly ? " (favourites only)." : ".");
+      status.textContent = `${selectedDay}: Displaying timeline blocks (40 min duration) across ${venues.length} venues.`;
     }
 
     toggleBtn.addEventListener("click", () => {
