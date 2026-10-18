@@ -63,6 +63,7 @@
     #tableWrap {
       overflow-x: auto;
       margin-top: 1rem;
+      position: relative;
     }
 
     table {
@@ -79,12 +80,21 @@
       padding: .65rem;
       text-align: left;
       vertical-align: top;
+      background: #fff; /* Default background for cells */
     }
 
+    /* Sticky Times Column */
     th:first-child, td:first-child {
+      position: sticky;
+      left: 0;
       width: 85px;
       background: #f5f5f5;
       font-weight: 600;
+      z-index: 2; /* Ensures time column stays on top of horizontal content */
+    }
+
+    thead th:first-child {
+      z-index: 3; /* Top-left corner needs to sit above both sticky column and header row */
     }
 
     thead th {
@@ -210,7 +220,7 @@
     }
 
     function isTime(value) {
-      return /^\d{1,2}:\d{2}$/.test(String(value ?? "").trim());
+      return /^\d{1,2}:\d{2}\$/.test(String(value ?? "").trim());
     }
 
     function findHeader(headers, aliases) {
@@ -257,7 +267,7 @@
       if (sample &&
           mapping.day && mapping.time && mapping.venue &&
           mapping.artist && mapping.highlight &&
-          !normalizeDay(sample[mapping.time]).match(/^\d{1,2}:\d{2}$/) &&
+          !normalizeDay(sample[mapping.time]).match(/^\d{1,2}:\d{2}\$/) &&
           isTime(sample[mapping.venue]) &&
           DAY_ORDER.includes(normalizeDay(sample[mapping.time]))) {
 
