@@ -181,7 +181,7 @@
       </select>
 
       <button id="toggleBtn" class="primary" disabled>
-        Show favourites only
+        Favourites Only
       </button>
 
       <button id="refreshBtn">Reload</button>
@@ -360,7 +360,7 @@
 
             populateDays();
             toggleBtn.disabled = !hasHighlightColumn;
-            toggleBtn.textContent = showFavouritesOnly ? "Show all artists" : "Show favourites only";
+            toggleBtn.textContent = showFavouritesOnly ? "All Artists" : "Favourites Only";
             status.textContent = `Loaded ${performances.length} performances.`;
             render();
           } catch (error) {
