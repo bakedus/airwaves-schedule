@@ -11,6 +11,7 @@
     #controls { display:flex; gap:.5rem; align-items:center; }
     button { padding:.4rem .7rem; border-radius:6px; border:1px solid #ccc; background:#f8f8f8; cursor:pointer; }
     button.primary { background:#0366d6; color:#fff; border-color:transparent; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
     table { width:100%; border-collapse:collapse; margin-top:1rem; }
     th, td { text-align:left; padding:.5rem .6rem; border-bottom:1px solid #eee; }
     th { background:#fafafa; font-weight:600; font-size:.95rem; }
@@ -19,18 +20,19 @@
     #status { margin-top:.5rem; color:#666; font-size:.95rem; }
     @media (max-width:640px){ th:nth-child(1), td:nth-child(1){display:none;} }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" integrity="REPLACE_WITH_SRI_HASH" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <h1>Airwaves schedule</h1>
     <div id="controls">
-      <button id="toggleBtn" class="primary">Show favourites only</button>
+      <button id="toggleBtn" class="primary" disabled>Show favourites only</button>
       <button id="refreshBtn" title="Reload CSV">Reload</button>
     </div>
   </header>
 
   <div id="status" class="muted">Loading schedule…</div>
+  <noscript><div class="muted">This page requires JavaScript to load the schedule. Please enable JavaScript or view schedule.csv directly.</div></noscript>
   <div id="tableWrap"></div>
 
   <script>
@@ -41,18 +43,19 @@
     const PREFERRED = {
       date: ['date', 'day_date', 'day'],
       weekday: ['weekday', 'day_of_week', 'day'],
-      favourite: ['favourite', 'favorite', 'fav', 'favs', 'is_favourite']
+      favourite: ['favourite', 'favorite', 'fav', 'favs', 'is_favourite', 'highlight', 'highlights']
     };
 
     let rows = [];
-    let showFavouritesOnly = true; // initial behaviour per toggle button text
+    let showFavouritesOnly = true; // initial behaviour
     const status = document.getElementById('status');
     const toggleBtn = document.getElementById('toggleBtn');
     const refreshBtn = document.getElementById('refreshBtn');
 
     toggleBtn.addEventListener('click', () => {
+      if (toggleBtn.disabled) return;
       showFavouritesOnly = !showFavouritesOnly;
-      toggleBtn.textContent = showFavouritesOnly ? 'Show all shows for the day' : 'Show favourites only';
+      // text will be set in render() depending on fav column presence
       render();
     });
     refreshBtn.addEventListener('click', loadCsv);
@@ -72,7 +75,7 @@
     function truthyFav(value) {
       if (value === undefined || value === null) return false;
       const s = String(value).trim().toLowerCase();
-      return s === '1' || s === 'yes' || s === 'y' || s === 'true' || s === 'x' || s === '★' || s === 'fav' || s === 'f';
+      return s === '1' || s === 'yes' || s === 'y' || s === 'true' || s === 'x' || s === '★' || s === 'fav' || s === 'f' || s === 'highlight' || s === 'hl' ;
     }
 
     function getTodayStrings() {
@@ -123,24 +126,38 @@
       const weekdayCol = findColumnKey(headersNorm, PREFERRED.weekday);
       const favCol = findColumnKey(headersNorm, PREFERRED.favourite);
 
+      // Enable/disable favourites toggle based on presence of column
+      if (!favCol) {
+        toggleBtn.disabled = true;
+        toggleBtn.title = 'No favourites column present in CSV';
+        // If user had favourites-only mode on, turn it off to avoid empty results
+        if (showFavouritesOnly) showFavouritesOnly = false;
+      } else {
+        toggleBtn.disabled = false;
+        toggleBtn.title = 'Toggle favourites filter';
+      }
+
+      // Update toggle text to reflect current state & availability
+      if (!favCol) {
+        toggleBtn.textContent = 'No favourites column';
+      } else {
+        toggleBtn.textContent = showFavouritesOnly ? 'Show all shows for the day' : 'Show favourites only';
+      }
+
       const today = getTodayStrings();
 
       // Filter for "today" if we have a date or weekday column; otherwise show everything
       let dayFiltered = rows.filter(r => {
         if (dateCol && r[headers[dateCol.idx]]) {
-          // try to match YYYY-MM-DD (or other common formats)
           const val = String(r[headers[dateCol.idx]]).trim();
           if (val === '') return false;
-          // Accept exact ISO match or parseable date
           if (val === today.iso) return true;
-          // Try parseable:
           const parsed = Date.parse(val);
           if (!isNaN(parsed)) {
             const d = new Date(parsed);
             const p = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
             return p === today.iso;
           }
-          // fallback: string contains weekday name?
           if (val.toLowerCase().includes(today.weekdayLong) || val.toLowerCase().includes(today.weekdayShort)) return true;
           return false;
         }
@@ -156,9 +173,6 @@
       let finalRows = dayFiltered;
       if (showFavouritesOnly && favCol) {
         finalRows = dayFiltered.filter(r => truthyFav(r[headers[favCol.idx]]));
-      } else if (showFavouritesOnly && !favCol) {
-        // No favourites column present; nothing to show
-        finalRows = [];
       }
 
       // Build table
@@ -167,9 +181,7 @@
         return;
       }
 
-      // Choose visible columns: prefer columns that look like time, title, presenter, etc.
-      const preferredCols = ['time', 'start', 'title', 'show', 'presenter', 'host', 'description', 'duration', 'genre', 'channel'];
-      // Use original headers in original order
+      // Choose visible columns: show original headers (you can further restrict if desired)
       const colsToShow = headers.slice(0, headers.length).filter(h => h && h.trim() !== '');
 
       // Render HTML table
@@ -206,7 +218,8 @@
         .replace(/>/g, '&gt;');
     }
 
-    // initial text on the toggle button
+    // initial button state (disabled until we know if a favourites column exists)
+    toggleBtn.disabled = true;
     toggleBtn.textContent = showFavouritesOnly ? 'Show all shows for the day' : 'Show favourites only';
 
     // Kick off
