@@ -245,8 +245,6 @@
       <button id="toggleBtn" class="primary" disabled>
         Favourites Only
       </button>
-
-      <button id="refreshBtn">Reload</button>
     </div>
   </header>
 
@@ -278,7 +276,6 @@
     const viewSelect = document.getElementById("viewSelect");
     const venueSelect = document.getElementById("venueSelect");
     const toggleBtn = document.getElementById("toggleBtn");
-    const refreshBtn = document.getElementById("refreshBtn");
 
     let performances = [];
     let showFavouritesOnly = false;
@@ -407,7 +404,6 @@
     }
 
     function loadCsv() {
-      refreshBtn.disabled = true;
       status.textContent = "Loading schedule...";
       tableWrap.innerHTML = "";
 
@@ -435,13 +431,10 @@
             status.textContent = `Error: ${error.message}`;
             tableWrap.innerHTML = "";
             console.error(error);
-          } finally {
-            refreshBtn.disabled = false;
           }
         },
         error(error) {
           status.textContent = `Failed to load CSV: ${error.message || error}`;
-          refreshBtn.disabled = false;
         }
       });
     }
@@ -607,7 +600,6 @@
 
     viewSelect.addEventListener("change", render);
     venueSelect.addEventListener("change", render);
-    refreshBtn.addEventListener("click", loadCsv);
 
     loadCsv();
   </script>
