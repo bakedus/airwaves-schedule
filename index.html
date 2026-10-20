@@ -163,9 +163,63 @@
 
     .muted { color: #666; }
 
+    /* Chronological list view */
+    .chronological-list {
+      display: grid;
+      gap: .65rem;
+      max-width: 900px;
+      margin: 1rem auto;
+    }
+
+    .show-card {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: .8rem;
+      padding: .85rem;
+      border: 1px solid #e0e4e8;
+      border-left: 4px solid #1769aa;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .show-card.fav {
+      background: #fff5f5;
+      border-left-color: #d11b32;
+    }
+
+    .show-card-time {
+      font-weight: 700;
+      color: #1769aa;
+      line-height: 1.35;
+    }
+
+    .show-card.fav .show-card-time,
+    .show-card.fav .show-card-title { color: #b42332; }
+
+    .show-card-title {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .show-card-venue {
+      margin-top: .25rem;
+      color: #555;
+      font-size: .92rem;
+    }
+
+    .show-card-duration {
+      margin-top: .3rem;
+      color: #666;
+      font-size: .82rem;
+    }
+
     @media (max-width: 640px) {
       body { margin-top: 1rem; padding: 0 .5rem; }
       h1 { font-size: 1.3rem; }
+      #controls { width: 100%; align-items: stretch; }
+      #controls label { align-self: center; }
+      #controls select, #controls button { max-width: 100%; }
+      .show-card { grid-template-columns: 76px minmax(0, 1fr); gap: .55rem; padding: .7rem; }
     }
   </style>
 </head>
@@ -178,6 +232,17 @@
       <label for="daySelect">Day:</label>
       <select id="daySelect" disabled>
         <option>Loading...</option>
+      </select>
+
+      <label for="viewSelect">View:</label>
+      <select id="viewSelect" disabled>
+        <option value="grid">Grid</option>
+        <option value="chronological">Chronological</option>
+      </select>
+
+      <label for="venueSelect">Venue:</label>
+      <select id="venueSelect" disabled>
+        <option value="">All venues</option>
       </select>
 
       <button id="toggleBtn" class="primary" disabled>
@@ -213,6 +278,8 @@
     const status = document.getElementById("status");
     const tableWrap = document.getElementById("tableWrap");
     const daySelect = document.getElementById("daySelect");
+    const viewSelect = document.getElementById("viewSelect");
+    const venueSelect = document.getElementById("venueSelect");
     const toggleBtn = document.getElementById("toggleBtn");
     const refreshBtn = document.getElementById("refreshBtn");
 
@@ -359,6 +426,9 @@
             if (!performances.length) throw new Error("No valid performances were found.");
 
             populateDays();
+            populateVenues();
+            viewSelect.disabled = false;
+            venueSelect.disabled = false;
             toggleBtn.disabled = !hasHighlightColumn;
             toggleBtn.textContent = showFavouritesOnly ? "All Artists" : "Favourites Only";
             status.textContent = `Loaded ${performances.length} performances.`;
@@ -397,13 +467,32 @@
 
       daySelect.disabled = days.length === 0;
       if (days.includes(previousDay)) daySelect.value = previousDay;
-      daySelect.onchange = render;
+      daySelect.onchange = () => {
+        populateVenues();
+        render();
+      };
+    }
+
+    function populateVenues() {
+      const previousVenue = venueSelect.value;
+      const venues = [...new Set(performances.map(p => p.venue))]
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+
+      venueSelect.innerHTML = '<option value="">All venues</option>' +
+        venues.map(venue =>
+          `<option value="${escapeHtml(venue)}">${escapeHtml(venue)}</option>`
+        ).join("");
+
+      if (venues.includes(previousVenue)) venueSelect.value = previousVenue;
     }
 
     function render() {
       const selectedDay = daySelect.value;
+      const selectedVenue = venueSelect.value;
       let list = performances.filter(p => p.day === selectedDay);
 
+      if (selectedVenue) list = list.filter(p => p.venue === selectedVenue);
       if (showFavouritesOnly && hasHighlightColumn) {
         list = list.filter(p => isTruthy(p.highlight));
       }
@@ -414,8 +503,51 @@
         return;
       }
 
-      const venues = [...new Set(list.map(p => p.venue))].sort((a, b) => a.localeCompare(b));
+      list.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+      if (viewSelect.value === "chronological") {
+        renderChronological(list, selectedDay);
+      } else {
+        renderGrid(list, selectedDay);
+      }
+    }
 
+    function renderChronological(list, selectedDay) {
+      const html = list.map(p => {
+        const start = timeToMinutes(p.time);
+        const end = start + 40;
+        const fav = hasHighlightColumn && isTruthy(p.highlight);
+        const startLabel = formatDisplayTime(start);
+        const endLabel = formatDisplayTime(end);
+        return `
+          <article class="show-card ${fav ? "fav" : ""}">
+            <div class="show-card-time">${fav ? '<span class="star" aria-label="Favourite">★</span>' : ""}${escapeHtml(startLabel)}</div>
+            <div>
+              <div class="show-card-title">${escapeHtml(p.artist)}</div>
+              <div class="show-card-venue">${escapeHtml(p.venue)}</div>
+              <div class="show-card-duration">${escapeHtml(startLabel)}–${escapeHtml(endLabel)}${fav ? " · Favourite" : ""}</div>
+            </div>
+          </article>`;
+      }).join("");
+
+      tableWrap.innerHTML = `<div class="chronological-list">${html}</div>`;
+      const venueLabel = venueSelect.value
+        ? ` at ${venueSelect.value}`
+        : ` across ${new Set(list.map(p => p.venue)).size} venues`;
+      status.textContent = `${selectedDay}: ${list.length} shows${venueLabel}` +
+        (showFavouritesOnly ? " (favourites only)." : ".");
+    }
+
+    function formatDisplayTime(totalMinutes) {
+      const minutes = totalMinutes % (24 * 60);
+      const hours24 = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      const suffix = hours24 >= 12 ? "PM" : "AM";
+      const hours12 = hours24 % 12 || 12;
+      return `${hours12}:${String(mins).padStart(2, "0")} ${suffix}`;
+    }
+
+    function renderGrid(list, selectedDay) {
+      const venues = [...new Set(list.map(p => p.venue))].sort((a, b) => a.localeCompare(b));
       let minMin = Infinity;
       let maxMin = -Infinity;
 
@@ -428,68 +560,46 @@
 
       minMin = Math.floor(minMin / 10) * 10;
       maxMin = Math.ceil(maxMin / 10) * 10;
-
       const slotRows = [];
-      for (let m = minMin; m < maxMin; m += 10) {
-        slotRows.push(m);
-      }
+      for (let m = minMin; m < maxMin; m += 10) slotRows.push(m);
 
       const venueMap = {};
       venues.forEach(v => venueMap[v] = []);
       list.forEach(p => {
-        if (venueMap[p.venue]) {
-          venueMap[p.venue].push({
-            ...p,
-            startMin: timeToMinutes(p.time),
-            endMin: timeToMinutes(p.time) + 40
-          });
-        }
+        venueMap[p.venue].push({
+          ...p,
+          startMin: timeToMinutes(p.time),
+          endMin: timeToMinutes(p.time) + 40
+        });
       });
 
-      let html = "<table><thead><tr>";
-      html += '<th scope="col">Time</th>';
+      let html = "<table><thead><tr><th scope='col'>Time</th>";
       venues.forEach(v => html += `<th scope="col">${escapeHtml(v)}</th>`);
       html += "</tr></thead><tbody>";
 
       slotRows.forEach(slotMin => {
-        const timeLabel = minutesToTime(slotMin);
-        html += `<tr><th scope="row">${timeLabel}</th>`;
-
+        html += `<tr><th scope="row">${minutesToTime(slotMin)}</th>`;
         venues.forEach(venue => {
           const actsInVenue = venueMap[venue] || [];
           const matchingAct = actsInVenue.find(a => a.startMin === slotMin);
-
           if (matchingAct) {
-            const rowSpan = 4; 
             const fav = hasHighlightColumn && isTruthy(matchingAct.highlight);
             const endTimeStr = minutesToTime(matchingAct.endMin);
-
-            html += `<td class="venue-cell" rowspan="${rowSpan}">`;
-            html += `<div class="show-block ${fav ? 'fav' : ''}">`;
-            
-            if (fav) {
-              html += `<div class="time-sub"><span class="star" aria-label="Favourite">★</span>${escapeHtml(matchingAct.time)} - ${endTimeStr}</div>`;
-            } else {
-              html += `<div class="time-sub">${escapeHtml(matchingAct.time)} - ${endTimeStr}</div>`;
-            }
-
-            html += `<span class="artist">${escapeHtml(matchingAct.artist)}</span>`;
-            html += `</div></td>`;
+            html += `<td class="venue-cell" rowspan="4"><div class="show-block ${fav ? "fav" : ""}">`;
+            html += `<div class="time-sub">${fav ? '<span class="star" aria-label="Favourite">★</span>' : ""}${escapeHtml(matchingAct.time)} - ${endTimeStr}</div>`;
+            html += `<span class="artist">${escapeHtml(matchingAct.artist)}</span></div></td>`;
           } else {
             const coveredByShow = actsInVenue.some(a => slotMin > a.startMin && slotMin < a.endMin);
-            if (!coveredByShow) {
-              html += '<td></td>';
-            }
+            if (!coveredByShow) html += "<td></td>";
           }
         });
-
         html += "</tr>";
       });
 
       html += "</tbody></table>";
       tableWrap.innerHTML = html;
-
-      status.textContent = `${selectedDay}: ${list.length} shows across ${venues.length} venues` + (showFavouritesOnly ? " (favourites only)." : ".");
+      status.textContent = `${selectedDay}: ${list.length} shows across ${venues.length} venues` +
+        (showFavouritesOnly ? " (favourites only)." : ".");
     }
 
     toggleBtn.addEventListener("click", () => {
@@ -498,6 +608,8 @@
       render();
     });
 
+    viewSelect.addEventListener("change", render);
+    venueSelect.addEventListener("change", render);
     refreshBtn.addEventListener("click", loadCsv);
 
     loadCsv();
