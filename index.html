@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airwaves 2026 Schedule</title>
+<style>
+:root{--bg:#0f1724;--bg2:#182233;--line:#2a3750;--tx:#eef2f7;--mu:#97a6bd;--gold:#f5b942;--ppm:3px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 "Avenir Next","Segoe UI",system-ui,sans-serif}
+header{padding:18px 14px 6px;max-width:1100px;margin:0 auto}
+h1{margin:0;font-size:24px;letter-spacing:-.01em}
+.sub{margin:4px 0 0;color:var(--mu);font-size:13px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px;max-width:1100px;margin:0 auto}
+select,button.tog{font:inherit;font-size:16px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;width:100%}
+button.tog{cursor:pointer;font-weight:600}
+button.tog[aria-pressed=true]{background:var(--gold);color:#241a05;border-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:1100px;margin:0 auto;padding:0 14px 40px}
+.msg{padding:24px 4px;color:var(--mu)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg2);-webkit-overflow-scrolling:touch}
+.tl{width:max-content;min-width:100%}
+.tl-head,.tl-row{display:flex}
+.tl-row{border-top:1px solid var(--line)}
+.corner,.vl{position:sticky;left:0;z-index:3;width:88px;flex:none;background:var(--bg2)}
+.corner{padding:6px 8px;color:var(--mu);font-size:12px;height:28px}
+.ticks{position:relative;height:28px;flex:none}
+.ticks span{position:absolute;top:6px;font-size:12px;color:var(--mu);transform:translateX(-50%)}
+.vl{border-left:4px solid var(--c);padding:8px;font-weight:700;font-size:13px;display:flex;align-items:center;box-shadow:2px 0 6px #0006}
+.track{position:relative;height:92px;flex:none;background-image:linear-gradient(to right,var(--line) 1px,transparent 1px);background-size:calc(var(--ppm)*30) 100%}
+.blk{position:absolute;top:8px;bottom:8px;border:1px solid var(--c);border-radius:8px;padding:6px 6px 6px 8px;overflow:hidden;background:color-mix(in srgb,var(--c) 30%,var(--bg2));font-size:12.5px;line-height:1.25}
+.blk.fav,.item.fav{box-shadow:0 0 0 2px var(--gold)}
+.blk b{display:block;padding-right:22px;overflow-wrap:anywhere}
+.blk small{position:absolute;left:8px;bottom:5px;color:var(--mu);font-size:11px}
+.star{background:none;border:0;color:var(--mu);font-size:20px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px}
+.star[aria-pressed=true]{color:var(--gold)}
+.blk .star{position:absolute;top:0;right:0}
+.hour{margin:18px 0 6px;color:var(--mu);font-size:13px;font-weight:600}
+.item{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:8px 6px 8px 12px;margin-bottom:8px}
+.item .t{width:96px;flex:none;font-variant-numeric:tabular-nums;color:var(--mu);font-size:13px}
+.item .n{flex:1;min-width:0}
+.item .n b{display:block;font-size:16px;overflow-wrap:anywhere}
+.item .n span{color:var(--mu);font-size:13px}
+.info{margin:0 0 10px;color:var(--mu);font-size:13px}
+a{color:inherit}
+footer{max-width:1100px;margin:0 auto;padding:0 14px 30px;color:var(--mu);font-size:12px}
+footer button{font:inherit;color:var(--mu);background:none;border:0;text-decoration:underline;padding:0;cursor:pointer}
+@media(min-width:720px){.controls{display:flex}.controls>*{flex:1}}
+</style>
+</head>
+<body>
+<header>
+<h1>Airwaves 2026 Schedule</h1>
+</header>
+<div class="controls">
+<select id="day" aria-label="Day"></select>
+<select id="venue" aria-label="Venue"></select>
+<select id="view" aria-label="View"><option value="list">Timeline</option><option value="grid">Grid</option></select>
+<button id="fav" class="tog" aria-pressed="false">Show All</button>
+</div>
+<main aria-live="polite"><p id="info" class="info"></p><div id="out"></div></main>
+<footer><button id="reset">Clear stars I tapped on this device</button></footer>
+<script type="application/json" id="data">
+[
+  {"date": "2026-11-05", "start": "19:30", "end": "20:10", "venue": "Kolaport", "artist": "TBC", "favourite": false},
+  {"date": "2026-11-05", "start": "20:30", "end": "21:10", "venue": "Kolaport", "artist": "virgin orchestra", "favourite": false},
+  {"date": "2026-11-05", "start": "21:30", "end": "22:10", "venue": "Kolaport", "artist": "MAMMÚT", "favourite": false},
+  {"date": "2026-11-05", "start": "22:30", "end": "23:10", "venue": "Kolaport", "artist": "Adult DVD", "favourite": false},
+  {"date": "2026-11-05", "start": "23:30", "end": "00:10", "venue": "Kolaport", "artist": "YARD", "favourite": false},
+  {"date": "2026-11-05", "start": "19:20", "end": "20:00", "venue": "City Hall", "artist": "LÓN", "favourite": false},
+  {"date": "2026-11-05", "start": "20:20", "end": "21:00", "venue": "City Hall", "artist": "Farveblind", "favourite": false},
+  {"date": "2026-11-05", "start": "21:20", "end": "22:00", "venue": "City Hall", "artist": "Yaelokre", "favourite": false},
+  {"date": "2026-11-05", "start": "22:20", "end": "23:00", "venue": "City Hall", "artist": "Sycamore Tree", "favourite": false},
+  {"date": "2026-11-05", "start": "23:20", "end": "00:00", "venue": "City Hall", "artist": "Digital Ísland", "favourite": false},
+  {"date": "2026-11-05", "start": "19:10", "end": "19:50", "venue": "Iðnó", "artist": "Emma", "favourite": false},
+  {"date": "2026-11-05", "start": "20:10", "end": "20:50", "venue": "Iðnó", "artist": "Lucy Dreams", "favourite": false},
+  {"date": "2026-11-05", "start": "21:10", "end": "21:50", "venue": "Iðnó", "artist": "RAKEL", "favourite": false},
+  {"date": "2026-11-05", "start": "22:10", "end": "22:50", "venue": "Iðnó", "artist": "Worldpeace DMT", "favourite": false},
+  {"date": "2026-11-05", "start": "23:10", "end": "23:50", "venue": "Iðnó", "artist": "The Gnomes", "favourite": false},
+  {"date": "2026-11-06", "start": "00:10", "end": "00:50", "venue": "Iðnó", "artist": "Flesh Machine", "favourite": false},
+  {"date": "2026-11-05", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Andervel", "favourite": false},
+  {"date": "2026-11-05", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Alba Akvama", "favourite": false},
+  {"date": "2026-11-05", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Sævar Jóhannsson", "favourite": false},
+  {"date": "2026-11-05", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "TÁR", "favourite": false},
+  {"date": "2026-11-05", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Warhaus", "favourite": false},
+  {"date": "2026-11-05", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Falinn Gjóður", "favourite": false},
+  {"date": "2026-11-05", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "State of Grace", "favourite": false},
+  {"date": "2026-11-05", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "bed", "favourite": false},
+  {"date": "2026-11-05", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "PISS", "favourite": false},
+  {"date": "2026-11-05", "start": "19:00", "end": "19:40", "venue": "Rosenberg", "artist": "Marsibil", "favourite": false},
+  {"date": "2026-11-05", "start": "20:00", "end": "20:40", "venue": "Rosenberg", "artist": "Gosi", "favourite": false},
+  {"date": "2026-11-05", "start": "21:00", "end": "21:40", "venue": "Rosenberg", "artist": "Brynja", "favourite": false},
+  {"date": "2026-11-05", "start": "22:00", "end": "22:40", "venue": "Rosenberg", "artist": "someshiit", "favourite": false},
+  {"date": "2026-11-05", "start": "23:00", "end": "23:40", "venue": "Rosenberg", "artist": "Revenge of Calculon", "favourite": false},
+  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Kolaport", "artist": "CeaseTone", "favourite": false},
+  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Nori", "favourite": false},
+  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "PIXY", "favourite": false},
+  {"date": "2026-11-06", "start": "22:50", "end": "23:50", "venue": "Kolaport", "artist": "Cobrah", "favourite": false},
+  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "Kolaport", "artist": "SCAM", "favourite": false},
+  {"date": "2026-11-07", "start": "01:10", "end": "01:50", "venue": "Kolaport", "artist": "Emmsjé Gauti", "favourite": false},
+  {"date": "2026-11-06", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Oyama", "favourite": false},
+  {"date": "2026-11-06", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Esmeralda Road", "favourite": false},
+  {"date": "2026-11-06", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Sísý Ey", "favourite": false},
+  {"date": "2026-11-06", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Agent Fresco", "favourite": false},
+  {"date": "2026-11-06", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Formal Sppeedwear", "favourite": false},
+  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "Spacestation", "favourite": false},
+  {"date": "2026-11-06", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "Sakaris", "favourite": false},
+  {"date": "2026-11-06", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "Tunghoyrt", "favourite": false},
+  {"date": "2026-11-06", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "RSP", "favourite": false},
+  {"date": "2026-11-06", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "Janus Rasmussen", "favourite": false},
+  {"date": "2026-11-06", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "BLUAI", "favourite": false},
+  {"date": "2026-11-07", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "Úlfur Úlfur", "favourite": false},
+  {"date": "2026-11-07", "start": "01:00", "end": "01:40", "venue": "Iðnó", "artist": "Alien Chicks", "favourite": false},
+  {"date": "2026-11-06", "start": "20:30", "end": "21:10", "venue": "NASA", "artist": "Einakróna", "favourite": false},
+  {"date": "2026-11-06", "start": "21:30", "end": "22:10", "venue": "NASA", "artist": "Jónfrí", "favourite": false},
+  {"date": "2026-11-06", "start": "22:30", "end": "23:10", "venue": "NASA", "artist": "Pollyfromthedirt", "favourite": false},
+  {"date": "2026-11-06", "start": "23:30", "end": "00:10", "venue": "NASA", "artist": "Bana Zahiti", "favourite": false},
+  {"date": "2026-11-06", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Yaelokre", "favourite": false},
+  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Axel Flóvent", "favourite": false},
+  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Duffy", "favourite": false},
+  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Dove Ellis", "favourite": false},
+  {"date": "2026-11-06", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Júníus Meyvant", "favourite": false},
+  {"date": "2026-11-06", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Apex Anima & FRZNTE", "favourite": false},
+  {"date": "2026-11-06", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Them Flying Monkeys", "favourite": false},
+  {"date": "2026-11-06", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Victoryland", "favourite": false},
+  {"date": "2026-11-06", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Dumbhead", "favourite": false},
+  {"date": "2026-11-06", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "SYL", "favourite": false},
+  {"date": "2026-11-06", "start": "19:20", "end": "20:00", "venue": "Rosenberg", "artist": "Upper Mall Rats", "favourite": false},
+  {"date": "2026-11-06", "start": "20:20", "end": "21:00", "venue": "Rosenberg", "artist": "Brynja Rán", "favourite": false},
+  {"date": "2026-11-06", "start": "21:20", "end": "22:00", "venue": "Rosenberg", "artist": "Haukur Páll", "favourite": false},
+  {"date": "2026-11-06", "start": "22:20", "end": "23:00", "venue": "Rosenberg", "artist": "Juno Paul", "favourite": false},
+  {"date": "2026-11-06", "start": "23:20", "end": "00:00", "venue": "Rosenberg", "artist": "JEFF3", "favourite": false},
+  {"date": "2026-11-07", "start": "00:20", "end": "01:00", "venue": "Rosenberg", "artist": "Fig Tape", "favourite": false},
+  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Amor Vincit Omnia", "favourite": false},
+  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "Liim", "favourite": false},
+  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Kolaport", "artist": "Birnir", "favourite": false},
+  {"date": "2026-11-07", "start": "23:50", "end": "00:30", "venue": "Kolaport", "artist": "Sex Week", "favourite": false},
+  {"date": "2026-11-08", "start": "00:50", "end": "01:30", "venue": "Kolaport", "artist": "Inspector Spacetime", "favourite": false},
+  {"date": "2026-11-07", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Mackenzie Leighton", "favourite": false},
+  {"date": "2026-11-07", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Bjarni Daníel", "favourite": false},
+  {"date": "2026-11-07", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Mugison", "favourite": false},
+  {"date": "2026-11-07", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Una Torfa", "favourite": false},
+  {"date": "2026-11-07", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Kaktus Einarsson", "favourite": false},
+  {"date": "2026-11-08", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "The Itch", "favourite": false},
+  {"date": "2026-11-07", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "GRIMA", "favourite": false},
+  {"date": "2026-11-07", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "RUVENRUVEN", "favourite": false},
+  {"date": "2026-11-07", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "SUNTRAP", "favourite": false},
+  {"date": "2026-11-07", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "PATATAONSTEREO", "favourite": false},
+  {"date": "2026-11-07", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "HÉR", "favourite": false},
+  {"date": "2026-11-08", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "David Bay", "favourite": false},
+  {"date": "2026-11-08", "start": "01:00", "end": "02:00", "venue": "Iðnó", "artist": "Skeler", "favourite": false},
+  {"date": "2026-11-07", "start": "19:20", "end": "20:00", "venue": "NASA", "artist": "Vicky Sometani", "favourite": false},
+  {"date": "2026-11-07", "start": "20:20", "end": "21:00", "venue": "NASA", "artist": "9m88", "favourite": false},
+  {"date": "2026-11-07", "start": "21:20", "end": "22:00", "venue": "NASA", "artist": "Leith Ross", "favourite": false},
+  {"date": "2026-11-07", "start": "22:20", "end": "23:00", "venue": "NASA", "artist": "Róshildur", "favourite": false},
+  {"date": "2026-11-07", "start": "23:20", "end": "00:00", "venue": "NASA", "artist": "Arima Ederra", "favourite": false},
+  {"date": "2026-11-07", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Mar Pujol", "favourite": false},
+  {"date": "2026-11-07", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Arny Margret", "favourite": false},
+  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Woon", "favourite": false},
+  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Sandrayati", "favourite": false},
+  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Ólöf Arnalds", "favourite": false},
+  {"date": "2026-11-07", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Spouses", "favourite": false},
+  {"date": "2026-11-07", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "KOIKOI", "favourite": false},
+  {"date": "2026-11-07", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Bleech 9:3", "favourite": false},
+  {"date": "2026-11-07", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Heartworms", "favourite": false},
+  {"date": "2026-11-07", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "knackered", "favourite": false},
+  {"date": "2026-11-07", "start": "18:30", "end": "19:10", "venue": "Rosenberg", "artist": "Valborg Ólafs", "favourite": false},
+  {"date": "2026-11-07", "start": "19:30", "end": "20:10", "venue": "Rosenberg", "artist": "Blood Harmony", "favourite": false},
+  {"date": "2026-11-07", "start": "20:30", "end": "21:10", "venue": "Rosenberg", "artist": "Cell7", "favourite": false},
+  {"date": "2026-11-07", "start": "21:30", "end": "22:10", "venue": "Rosenberg", "artist": "punktò", "favourite": false},
+  {"date": "2026-11-07", "start": "22:30", "end": "23:10", "venue": "Rosenberg", "artist": "LiteFun", "favourite": false},
+  {"date": "2026-11-07", "start": "23:30", "end": "00:10", "venue": "Rosenberg", "artist": "BKPM", "favourite": false},
+  {"date": "2026-11-08", "start": "00:30", "end": "01:10", "venue": "Rosenberg", "artist": "Nom De Guerre", "favourite": false}
+]
+</script>
+<script>
+const CUTOFF_HOUR = 3;          // shows starting before this hour belong to the previous festival day
+const VENUES = ["Kolaport","City Hall","Iðnó","NASA","Fríkirkjan","Lemmy","Rosenberg"];
+const COLORS = ["#e0707a","#5fb0e8","#e5a14a","#7bcf8e","#b58be8","#e87fc0","#4fc9c0","#c9c95a"];
+const PPM = 3, LS = "ia26-star-overrides";
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,"0");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let events = [], venues = [], days = [], over = {};
+try { over = JSON.parse(localStorage.getItem(LS) || "{}") || {}; } catch (e) {}
+
+const addDays = (d,n) => { const x = new Date(d + "T00:00:00Z"); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0,10); };
+const shortDay = d => ({4:"Thurs",5:"Fri",6:"Sat"})[new Date(d + "T00:00:00Z").getUTCDay()] || dayLabel(d);
+const dayLabel = d => new Date(d + "T00:00:00Z").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});
+const fmt = m => pad(Math.floor(m/60) % 24) + ":" + pad(m % 60);
+const isFav = e => e.id in over ? over[e.id] : e.csvFav;
+
+function setData(rows){
+  events = rows.filter(r => r.date && r.start && r.artist).map(r => {
+    const [h,m] = r.start.split(":").map(Number), [eh,em] = (r.end || r.start).split(":").map(Number);
+    const late = h < CUTOFF_HOUR, s = h*60 + m + (late ? 1440 : 0);
+    return { id: [r.date,r.start,r.venue].join("|"), day: late ? addDays(r.date,-1) : r.date, s, e: s + ((eh*60+em - h*60 - m + 1440) % 1440),
+      start: r.start, end: r.end, venue: r.venue, artist: r.artist, link: r.link, csvFav: r.favourite === true || /^(y|yes|true|1)$/i.test(String(r.favourite)) };
+  });
+  venues = [...new Set(events.map(e => e.venue))].sort((a,b) => (VENUES.indexOf(a)+1 || 99) - (VENUES.indexOf(b)+1 || 99));
+  days = [...new Set(events.map(e => e.day))].sort();
+  $("day").innerHTML = days.map(d => `<option value="${d}">${shortDay(d)}</option>`).join("");
+  $("venue").innerHTML = '<option value="all">All venues</option>' + venues.map(v => `<option>${esc(v)}</option>`).join("");
+  const today = new Date(Date.now() - CUTOFF_HOUR*3600e3).toISOString().slice(0,10);
+  $("day").value = days.includes(today) ? today : days[0];
+  render();
+}
+
+const col = v => COLORS[Math.max(0, venues.indexOf(v)) % COLORS.length];
+const star = e => `<button class="star" data-id="${esc(e.id)}" aria-pressed="${isFav(e)}" aria-label="Favourite ${esc(e.artist)}">${isFav(e) ? "★" : "☆"}</button>`;
+const name = e => e.link ? `<a href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.artist)}</a>` : esc(e.artist);
+
+function render(){
+  const day = $("day").value, ven = $("venue").value, favOnly = $("fav").getAttribute("aria-pressed") === "true";
+  const dayEv = events.filter(e => e.day === day);
+  const list = dayEv.filter(e => (ven === "all" || e.venue === ven) && (!favOnly || isFav(e))).sort((a,b) => a.s - b.s || a.venue.localeCompare(b.venue));
+  const nv = new Set(list.map(e => e.venue)).size;
+  $("info").textContent = `${list.length} show${list.length === 1 ? "" : "s"} across ${nv} venue${nv === 1 ? "" : "s"}`;
+  const out = $("out");
+  if (!list.length){ out.innerHTML = `<p class="msg">${favOnly ? "No favourites here yet. Tap ☆ on a show, or set favourite to true in the data." : "No shows match these filters."}</p>`; return; }
+  if ($("view").value === "list"){
+    let h = "", last = -1;
+    for (const e of list){
+      const hr = Math.floor(e.s/60);
+      if (hr !== last){ h += `<div class="hour">${fmt(hr*60)}</div>`; last = hr; }
+      h += `<div class="item${isFav(e) ? " fav" : ""}" style="--c:${col(e.venue)}"><div class="t">${e.start} – ${e.end}</div><div class="n"><b>${name(e)}</b><span>${esc(e.venue)}</span></div>${star(e)}</div>`;
+    }
+    out.innerHTML = h; return;
+  }
+  const t0 = Math.floor(Math.min(...dayEv.map(e => e.s))/30)*30, t1 = Math.ceil(Math.max(...dayEv.map(e => e.e))/30)*30, w = (t1 - t0)*PPM;
+  let ticks = ""; for (let m = t0; m <= t1; m += 30) ticks += `<span style="left:${(m-t0)*PPM}px">${fmt(m)}</span>`;
+  let h = `<div class="scroll"><div class="tl"><div class="tl-head"><div class="corner">GMT</div><div class="ticks" style="width:${w}px">${ticks}</div></div>`;
+  for (const v of venues.filter(v => ven === "all" || v === ven)){
+    const ve = list.filter(e => e.venue === v); if (!ve.length) continue;
+    h += `<div class="tl-row" style="--c:${col(v)}"><div class="vl">${esc(v)}</div><div class="track" style="width:${w}px">` +
+      ve.map(e => `<div class="blk${isFav(e) ? " fav" : ""}" style="left:${(e.s-t0)*PPM}px;width:${(e.e-e.s)*PPM-3}px"><b>${name(e)}</b><small>${e.start}–${e.end}</small>${star(e)}</div>`).join("") + `</div></div>`;
+  }
+  out.innerHTML = h + "</div></div>";
+}
+
+$("out").addEventListener("click", ev => {
+  const b = ev.target.closest(".star"); if (!b) return;
+  const e = events.find(x => x.id === b.dataset.id); over[e.id] = !isFav(e);
+  try { localStorage.setItem(LS, JSON.stringify(over)); } catch (x) {}
+  const sy = scrollY, sx = document.querySelector(".scroll")?.scrollLeft || 0; render();
+  const s = document.querySelector(".scroll"); if (s) s.scrollLeft = sx; scrollTo(0, sy);
+});
+["day","venue","view"].forEach(id => $(id).addEventListener("change", render));
+$("fav").addEventListener("click", () => {
+  const on = $("fav").getAttribute("aria-pressed") !== "true";
+  $("fav").setAttribute("aria-pressed", on); $("fav").textContent = on ? "Show Favourites" : "Show All"; render();
+});
+$("reset").addEventListener("click", () => { over = {}; try { localStorage.removeItem(LS); } catch (x) {} render(); });
+
+setData(JSON.parse($("data").textContent));
+</script>
+</body>
+</html>
