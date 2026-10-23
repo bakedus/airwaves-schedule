@@ -43,8 +43,6 @@ main{max-width:1100px;margin:0 auto;padding:0 14px 40px}
 .item .n span{color:var(--mu);font-size:13px}
 .info{margin:0 0 10px;color:var(--mu);font-size:13px}
 a{color:inherit}
-footer{max-width:1100px;margin:0 auto;padding:0 14px 30px;color:var(--mu);font-size:12px}
-footer button{font:inherit;color:var(--mu);background:none;border:0;text-decoration:underline;padding:0;cursor:pointer}
 @media(min-width:720px){.controls{display:flex}.controls>*{flex:1}}
 </style>
 </head>
@@ -56,121 +54,120 @@ footer button{font:inherit;color:var(--mu);background:none;border:0;text-decorat
 <select id="day" aria-label="Day"></select>
 <select id="venue" aria-label="Venue"></select>
 <select id="view" aria-label="View"><option value="list">Timeline</option><option value="grid">Grid</option></select>
-<button id="fav" class="tog" aria-pressed="false">Show All</button>
+<button id="fav" class="tog" aria-pressed="false">All</button>
 </div>
 <main aria-live="polite"><p id="info" class="info"></p><div id="out"></div></main>
-<footer><button id="reset">Clear stars I tapped on this device</button></footer>
 <script type="application/json" id="data">
 [
-  {"date": "2026-11-05", "start": "19:30", "end": "20:10", "venue": "Kolaport", "artist": "TBC", "favourite": false},
-  {"date": "2026-11-05", "start": "20:30", "end": "21:10", "venue": "Kolaport", "artist": "virgin orchestra", "favourite": false},
-  {"date": "2026-11-05", "start": "21:30", "end": "22:10", "venue": "Kolaport", "artist": "MAMMÚT", "favourite": false},
-  {"date": "2026-11-05", "start": "22:30", "end": "23:10", "venue": "Kolaport", "artist": "Adult DVD", "favourite": false},
-  {"date": "2026-11-05", "start": "23:30", "end": "00:10", "venue": "Kolaport", "artist": "YARD", "favourite": false},
-  {"date": "2026-11-05", "start": "19:20", "end": "20:00", "venue": "City Hall", "artist": "LÓN", "favourite": false},
-  {"date": "2026-11-05", "start": "20:20", "end": "21:00", "venue": "City Hall", "artist": "Farveblind", "favourite": false},
-  {"date": "2026-11-05", "start": "21:20", "end": "22:00", "venue": "City Hall", "artist": "Yaelokre", "favourite": false},
-  {"date": "2026-11-05", "start": "22:20", "end": "23:00", "venue": "City Hall", "artist": "Sycamore Tree", "favourite": false},
-  {"date": "2026-11-05", "start": "23:20", "end": "00:00", "venue": "City Hall", "artist": "Digital Ísland", "favourite": false},
-  {"date": "2026-11-05", "start": "19:10", "end": "19:50", "venue": "Iðnó", "artist": "Emma", "favourite": false},
-  {"date": "2026-11-05", "start": "20:10", "end": "20:50", "venue": "Iðnó", "artist": "Lucy Dreams", "favourite": false},
-  {"date": "2026-11-05", "start": "21:10", "end": "21:50", "venue": "Iðnó", "artist": "RAKEL", "favourite": false},
-  {"date": "2026-11-05", "start": "22:10", "end": "22:50", "venue": "Iðnó", "artist": "Worldpeace DMT", "favourite": false},
-  {"date": "2026-11-05", "start": "23:10", "end": "23:50", "venue": "Iðnó", "artist": "The Gnomes", "favourite": false},
-  {"date": "2026-11-06", "start": "00:10", "end": "00:50", "venue": "Iðnó", "artist": "Flesh Machine", "favourite": false},
-  {"date": "2026-11-05", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Andervel", "favourite": false},
-  {"date": "2026-11-05", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Alba Akvama", "favourite": false},
-  {"date": "2026-11-05", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Sævar Jóhannsson", "favourite": false},
-  {"date": "2026-11-05", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "TÁR", "favourite": false},
-  {"date": "2026-11-05", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Warhaus", "favourite": false},
-  {"date": "2026-11-05", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Falinn Gjóður", "favourite": false},
-  {"date": "2026-11-05", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "State of Grace", "favourite": false},
-  {"date": "2026-11-05", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "bed", "favourite": false},
-  {"date": "2026-11-05", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "PISS", "favourite": false},
-  {"date": "2026-11-05", "start": "19:00", "end": "19:40", "venue": "Rosenberg", "artist": "Marsibil", "favourite": false},
-  {"date": "2026-11-05", "start": "20:00", "end": "20:40", "venue": "Rosenberg", "artist": "Gosi", "favourite": false},
-  {"date": "2026-11-05", "start": "21:00", "end": "21:40", "venue": "Rosenberg", "artist": "Brynja", "favourite": false},
-  {"date": "2026-11-05", "start": "22:00", "end": "22:40", "venue": "Rosenberg", "artist": "someshiit", "favourite": false},
-  {"date": "2026-11-05", "start": "23:00", "end": "23:40", "venue": "Rosenberg", "artist": "Revenge of Calculon", "favourite": false},
-  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Kolaport", "artist": "CeaseTone", "favourite": false},
-  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Nori", "favourite": false},
-  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "PIXY", "favourite": false},
-  {"date": "2026-11-06", "start": "22:50", "end": "23:50", "venue": "Kolaport", "artist": "Cobrah", "favourite": false},
-  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "Kolaport", "artist": "SCAM", "favourite": false},
-  {"date": "2026-11-07", "start": "01:10", "end": "01:50", "venue": "Kolaport", "artist": "Emmsjé Gauti", "favourite": false},
-  {"date": "2026-11-06", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Oyama", "favourite": false},
-  {"date": "2026-11-06", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Esmeralda Road", "favourite": false},
-  {"date": "2026-11-06", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Sísý Ey", "favourite": false},
-  {"date": "2026-11-06", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Agent Fresco", "favourite": false},
-  {"date": "2026-11-06", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Formal Sppeedwear", "favourite": false},
-  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "Spacestation", "favourite": false},
-  {"date": "2026-11-06", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "Sakaris", "favourite": false},
-  {"date": "2026-11-06", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "Tunghoyrt", "favourite": false},
-  {"date": "2026-11-06", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "RSP", "favourite": false},
-  {"date": "2026-11-06", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "Janus Rasmussen", "favourite": false},
-  {"date": "2026-11-06", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "BLUAI", "favourite": false},
-  {"date": "2026-11-07", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "Úlfur Úlfur", "favourite": false},
-  {"date": "2026-11-07", "start": "01:00", "end": "01:40", "venue": "Iðnó", "artist": "Alien Chicks", "favourite": false},
-  {"date": "2026-11-06", "start": "20:30", "end": "21:10", "venue": "NASA", "artist": "Einakróna", "favourite": false},
-  {"date": "2026-11-06", "start": "21:30", "end": "22:10", "venue": "NASA", "artist": "Jónfrí", "favourite": false},
-  {"date": "2026-11-06", "start": "22:30", "end": "23:10", "venue": "NASA", "artist": "Pollyfromthedirt", "favourite": false},
-  {"date": "2026-11-06", "start": "23:30", "end": "00:10", "venue": "NASA", "artist": "Bana Zahiti", "favourite": false},
-  {"date": "2026-11-06", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Yaelokre", "favourite": false},
-  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Axel Flóvent", "favourite": false},
-  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Duffy", "favourite": false},
-  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Dove Ellis", "favourite": false},
-  {"date": "2026-11-06", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Júníus Meyvant", "favourite": false},
-  {"date": "2026-11-06", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Apex Anima & FRZNTE", "favourite": false},
-  {"date": "2026-11-06", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Them Flying Monkeys", "favourite": false},
-  {"date": "2026-11-06", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Victoryland", "favourite": false},
-  {"date": "2026-11-06", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Dumbhead", "favourite": false},
-  {"date": "2026-11-06", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "SYL", "favourite": false},
-  {"date": "2026-11-06", "start": "19:20", "end": "20:00", "venue": "Rosenberg", "artist": "Upper Mall Rats", "favourite": false},
-  {"date": "2026-11-06", "start": "20:20", "end": "21:00", "venue": "Rosenberg", "artist": "Brynja Rán", "favourite": false},
-  {"date": "2026-11-06", "start": "21:20", "end": "22:00", "venue": "Rosenberg", "artist": "Haukur Páll", "favourite": false},
-  {"date": "2026-11-06", "start": "22:20", "end": "23:00", "venue": "Rosenberg", "artist": "Juno Paul", "favourite": false},
-  {"date": "2026-11-06", "start": "23:20", "end": "00:00", "venue": "Rosenberg", "artist": "JEFF3", "favourite": false},
-  {"date": "2026-11-07", "start": "00:20", "end": "01:00", "venue": "Rosenberg", "artist": "Fig Tape", "favourite": false},
-  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Amor Vincit Omnia", "favourite": false},
-  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "Liim", "favourite": false},
-  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Kolaport", "artist": "Birnir", "favourite": false},
-  {"date": "2026-11-07", "start": "23:50", "end": "00:30", "venue": "Kolaport", "artist": "Sex Week", "favourite": false},
-  {"date": "2026-11-08", "start": "00:50", "end": "01:30", "venue": "Kolaport", "artist": "Inspector Spacetime", "favourite": false},
-  {"date": "2026-11-07", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Mackenzie Leighton", "favourite": false},
-  {"date": "2026-11-07", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Bjarni Daníel", "favourite": false},
-  {"date": "2026-11-07", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Mugison", "favourite": false},
-  {"date": "2026-11-07", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Una Torfa", "favourite": false},
-  {"date": "2026-11-07", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Kaktus Einarsson", "favourite": false},
-  {"date": "2026-11-08", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "The Itch", "favourite": false},
-  {"date": "2026-11-07", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "GRIMA", "favourite": false},
-  {"date": "2026-11-07", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "RUVENRUVEN", "favourite": false},
-  {"date": "2026-11-07", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "SUNTRAP", "favourite": false},
-  {"date": "2026-11-07", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "PATATAONSTEREO", "favourite": false},
-  {"date": "2026-11-07", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "HÉR", "favourite": false},
-  {"date": "2026-11-08", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "David Bay", "favourite": false},
-  {"date": "2026-11-08", "start": "01:00", "end": "02:00", "venue": "Iðnó", "artist": "Skeler", "favourite": false},
-  {"date": "2026-11-07", "start": "19:20", "end": "20:00", "venue": "NASA", "artist": "Vicky Sometani", "favourite": false},
-  {"date": "2026-11-07", "start": "20:20", "end": "21:00", "venue": "NASA", "artist": "9m88", "favourite": false},
-  {"date": "2026-11-07", "start": "21:20", "end": "22:00", "venue": "NASA", "artist": "Leith Ross", "favourite": false},
-  {"date": "2026-11-07", "start": "22:20", "end": "23:00", "venue": "NASA", "artist": "Róshildur", "favourite": false},
-  {"date": "2026-11-07", "start": "23:20", "end": "00:00", "venue": "NASA", "artist": "Arima Ederra", "favourite": false},
-  {"date": "2026-11-07", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Mar Pujol", "favourite": false},
-  {"date": "2026-11-07", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Arny Margret", "favourite": false},
-  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Woon", "favourite": false},
-  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Sandrayati", "favourite": false},
-  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Ólöf Arnalds", "favourite": false},
-  {"date": "2026-11-07", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Spouses", "favourite": false},
-  {"date": "2026-11-07", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "KOIKOI", "favourite": false},
-  {"date": "2026-11-07", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Bleech 9:3", "favourite": false},
-  {"date": "2026-11-07", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Heartworms", "favourite": false},
-  {"date": "2026-11-07", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "knackered", "favourite": false},
-  {"date": "2026-11-07", "start": "18:30", "end": "19:10", "venue": "Rosenberg", "artist": "Valborg Ólafs", "favourite": false},
-  {"date": "2026-11-07", "start": "19:30", "end": "20:10", "venue": "Rosenberg", "artist": "Blood Harmony", "favourite": false},
-  {"date": "2026-11-07", "start": "20:30", "end": "21:10", "venue": "Rosenberg", "artist": "Cell7", "favourite": false},
-  {"date": "2026-11-07", "start": "21:30", "end": "22:10", "venue": "Rosenberg", "artist": "punktò", "favourite": false},
-  {"date": "2026-11-07", "start": "22:30", "end": "23:10", "venue": "Rosenberg", "artist": "LiteFun", "favourite": false},
-  {"date": "2026-11-07", "start": "23:30", "end": "00:10", "venue": "Rosenberg", "artist": "BKPM", "favourite": false},
-  {"date": "2026-11-08", "start": "00:30", "end": "01:10", "venue": "Rosenberg", "artist": "Nom De Guerre", "favourite": false}
+  {"date": "2026-11-05", "start": "19:30", "end": "20:10", "venue": "Kolaport", "artist": "TBC"},
+  {"date": "2026-11-05", "start": "20:30", "end": "21:10", "venue": "Kolaport", "artist": "virgin orchestra"},
+  {"date": "2026-11-05", "start": "21:30", "end": "22:10", "venue": "Kolaport", "artist": "MAMMÚT"},
+  {"date": "2026-11-05", "start": "22:30", "end": "23:10", "venue": "Kolaport", "artist": "Adult DVD"},
+  {"date": "2026-11-05", "start": "23:30", "end": "00:10", "venue": "Kolaport", "artist": "YARD"},
+  {"date": "2026-11-05", "start": "19:20", "end": "20:00", "venue": "City Hall", "artist": "LÓN"},
+  {"date": "2026-11-05", "start": "20:20", "end": "21:00", "venue": "City Hall", "artist": "Farveblind"},
+  {"date": "2026-11-05", "start": "21:20", "end": "22:00", "venue": "City Hall", "artist": "Yaelokre"},
+  {"date": "2026-11-05", "start": "22:20", "end": "23:00", "venue": "City Hall", "artist": "Sycamore Tree"},
+  {"date": "2026-11-05", "start": "23:20", "end": "00:00", "venue": "City Hall", "artist": "Digital Ísland"},
+  {"date": "2026-11-05", "start": "19:10", "end": "19:50", "venue": "Iðnó", "artist": "Emma"},
+  {"date": "2026-11-05", "start": "20:10", "end": "20:50", "venue": "Iðnó", "artist": "Lucy Dreams"},
+  {"date": "2026-11-05", "start": "21:10", "end": "21:50", "venue": "Iðnó", "artist": "RAKEL"},
+  {"date": "2026-11-05", "start": "22:10", "end": "22:50", "venue": "Iðnó", "artist": "Worldpeace DMT"},
+  {"date": "2026-11-05", "start": "23:10", "end": "23:50", "venue": "Iðnó", "artist": "The Gnomes"},
+  {"date": "2026-11-06", "start": "00:10", "end": "00:50", "venue": "Iðnó", "artist": "Flesh Machine"},
+  {"date": "2026-11-05", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Andervel"},
+  {"date": "2026-11-05", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Alba Akvama"},
+  {"date": "2026-11-05", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Sævar Jóhannsson"},
+  {"date": "2026-11-05", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "TÁR"},
+  {"date": "2026-11-05", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Warhaus"},
+  {"date": "2026-11-05", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Falinn Gjóður"},
+  {"date": "2026-11-05", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "State of Grace"},
+  {"date": "2026-11-05", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "bed"},
+  {"date": "2026-11-05", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "PISS"},
+  {"date": "2026-11-05", "start": "19:00", "end": "19:40", "venue": "Rosenberg", "artist": "Marsibil"},
+  {"date": "2026-11-05", "start": "20:00", "end": "20:40", "venue": "Rosenberg", "artist": "Gosi"},
+  {"date": "2026-11-05", "start": "21:00", "end": "21:40", "venue": "Rosenberg", "artist": "Brynja"},
+  {"date": "2026-11-05", "start": "22:00", "end": "22:40", "venue": "Rosenberg", "artist": "someshiit"},
+  {"date": "2026-11-05", "start": "23:00", "end": "23:40", "venue": "Rosenberg", "artist": "Revenge of Calculon"},
+  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Kolaport", "artist": "CeaseTone"},
+  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Nori"},
+  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "PIXY"},
+  {"date": "2026-11-06", "start": "22:50", "end": "23:50", "venue": "Kolaport", "artist": "Cobrah"},
+  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "Kolaport", "artist": "SCAM"},
+  {"date": "2026-11-07", "start": "01:10", "end": "01:50", "venue": "Kolaport", "artist": "Emmsjé Gauti"},
+  {"date": "2026-11-06", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Oyama"},
+  {"date": "2026-11-06", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Esmeralda Road"},
+  {"date": "2026-11-06", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Sísý Ey"},
+  {"date": "2026-11-06", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Agent Fresco"},
+  {"date": "2026-11-06", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Formal Sppeedwear"},
+  {"date": "2026-11-07", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "Spacestation"},
+  {"date": "2026-11-06", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "Sakaris"},
+  {"date": "2026-11-06", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "Tunghoyrt"},
+  {"date": "2026-11-06", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "RSP"},
+  {"date": "2026-11-06", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "Janus Rasmussen"},
+  {"date": "2026-11-06", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "BLUAI"},
+  {"date": "2026-11-07", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "Úlfur Úlfur"},
+  {"date": "2026-11-07", "start": "01:00", "end": "01:40", "venue": "Iðnó", "artist": "Alien Chicks"},
+  {"date": "2026-11-06", "start": "20:30", "end": "21:10", "venue": "NASA", "artist": "Einakróna"},
+  {"date": "2026-11-06", "start": "21:30", "end": "22:10", "venue": "NASA", "artist": "Jónfrí"},
+  {"date": "2026-11-06", "start": "22:30", "end": "23:10", "venue": "NASA", "artist": "Pollyfromthedirt"},
+  {"date": "2026-11-06", "start": "23:30", "end": "00:10", "venue": "NASA", "artist": "Bana Zahiti"},
+  {"date": "2026-11-06", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Yaelokre"},
+  {"date": "2026-11-06", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Axel Flóvent"},
+  {"date": "2026-11-06", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Duffy"},
+  {"date": "2026-11-06", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Dove Ellis"},
+  {"date": "2026-11-06", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Júníus Meyvant"},
+  {"date": "2026-11-06", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Apex Anima & FRZNTE"},
+  {"date": "2026-11-06", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "Them Flying Monkeys"},
+  {"date": "2026-11-06", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Victoryland"},
+  {"date": "2026-11-06", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Dumbhead"},
+  {"date": "2026-11-06", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "SYL"},
+  {"date": "2026-11-06", "start": "19:20", "end": "20:00", "venue": "Rosenberg", "artist": "Upper Mall Rats"},
+  {"date": "2026-11-06", "start": "20:20", "end": "21:00", "venue": "Rosenberg", "artist": "Brynja Rán"},
+  {"date": "2026-11-06", "start": "21:20", "end": "22:00", "venue": "Rosenberg", "artist": "Haukur Páll"},
+  {"date": "2026-11-06", "start": "22:20", "end": "23:00", "venue": "Rosenberg", "artist": "Juno Paul"},
+  {"date": "2026-11-06", "start": "23:20", "end": "00:00", "venue": "Rosenberg", "artist": "JEFF3"},
+  {"date": "2026-11-07", "start": "00:20", "end": "01:00", "venue": "Rosenberg", "artist": "Fig Tape"},
+  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Kolaport", "artist": "Amor Vincit Omnia"},
+  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Kolaport", "artist": "Liim"},
+  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Kolaport", "artist": "Birnir"},
+  {"date": "2026-11-07", "start": "23:50", "end": "00:30", "venue": "Kolaport", "artist": "Sex Week"},
+  {"date": "2026-11-08", "start": "00:50", "end": "01:30", "venue": "Kolaport", "artist": "Inspector Spacetime"},
+  {"date": "2026-11-07", "start": "19:10", "end": "19:50", "venue": "City Hall", "artist": "Mackenzie Leighton"},
+  {"date": "2026-11-07", "start": "20:10", "end": "20:50", "venue": "City Hall", "artist": "Bjarni Daníel"},
+  {"date": "2026-11-07", "start": "21:10", "end": "21:50", "venue": "City Hall", "artist": "Mugison"},
+  {"date": "2026-11-07", "start": "22:10", "end": "22:50", "venue": "City Hall", "artist": "Una Torfa"},
+  {"date": "2026-11-07", "start": "23:10", "end": "23:50", "venue": "City Hall", "artist": "Kaktus Einarsson"},
+  {"date": "2026-11-08", "start": "00:10", "end": "00:50", "venue": "City Hall", "artist": "The Itch"},
+  {"date": "2026-11-07", "start": "19:00", "end": "19:40", "venue": "Iðnó", "artist": "GRIMA"},
+  {"date": "2026-11-07", "start": "20:00", "end": "20:40", "venue": "Iðnó", "artist": "RUVENRUVEN"},
+  {"date": "2026-11-07", "start": "21:00", "end": "21:40", "venue": "Iðnó", "artist": "SUNTRAP"},
+  {"date": "2026-11-07", "start": "22:00", "end": "22:40", "venue": "Iðnó", "artist": "PATATAONSTEREO"},
+  {"date": "2026-11-07", "start": "23:00", "end": "23:40", "venue": "Iðnó", "artist": "HÉR"},
+  {"date": "2026-11-08", "start": "00:00", "end": "00:40", "venue": "Iðnó", "artist": "David Bay"},
+  {"date": "2026-11-08", "start": "01:00", "end": "02:00", "venue": "Iðnó", "artist": "Skeler"},
+  {"date": "2026-11-07", "start": "19:20", "end": "20:00", "venue": "NASA", "artist": "Vicky Sometani"},
+  {"date": "2026-11-07", "start": "20:20", "end": "21:00", "venue": "NASA", "artist": "9m88"},
+  {"date": "2026-11-07", "start": "21:20", "end": "22:00", "venue": "NASA", "artist": "Leith Ross"},
+  {"date": "2026-11-07", "start": "22:20", "end": "23:00", "venue": "NASA", "artist": "Róshildur"},
+  {"date": "2026-11-07", "start": "23:20", "end": "00:00", "venue": "NASA", "artist": "Arima Ederra"},
+  {"date": "2026-11-07", "start": "18:50", "end": "19:30", "venue": "Fríkirkjan", "artist": "Mar Pujol"},
+  {"date": "2026-11-07", "start": "19:50", "end": "20:30", "venue": "Fríkirkjan", "artist": "Arny Margret"},
+  {"date": "2026-11-07", "start": "20:50", "end": "21:30", "venue": "Fríkirkjan", "artist": "Jamie Woon"},
+  {"date": "2026-11-07", "start": "21:50", "end": "22:30", "venue": "Fríkirkjan", "artist": "Sandrayati"},
+  {"date": "2026-11-07", "start": "22:50", "end": "23:30", "venue": "Fríkirkjan", "artist": "Ólöf Arnalds"},
+  {"date": "2026-11-07", "start": "18:40", "end": "19:20", "venue": "Lemmy", "artist": "Spouses"},
+  {"date": "2026-11-07", "start": "19:40", "end": "20:20", "venue": "Lemmy", "artist": "KOIKOI"},
+  {"date": "2026-11-07", "start": "20:40", "end": "21:20", "venue": "Lemmy", "artist": "Bleech 9:3"},
+  {"date": "2026-11-07", "start": "21:40", "end": "22:20", "venue": "Lemmy", "artist": "Heartworms"},
+  {"date": "2026-11-07", "start": "22:40", "end": "23:20", "venue": "Lemmy", "artist": "knackered"},
+  {"date": "2026-11-07", "start": "18:30", "end": "19:10", "venue": "Rosenberg", "artist": "Valborg Ólafs"},
+  {"date": "2026-11-07", "start": "19:30", "end": "20:10", "venue": "Rosenberg", "artist": "Blood Harmony"},
+  {"date": "2026-11-07", "start": "20:30", "end": "21:10", "venue": "Rosenberg", "artist": "Cell7"},
+  {"date": "2026-11-07", "start": "21:30", "end": "22:10", "venue": "Rosenberg", "artist": "punktò"},
+  {"date": "2026-11-07", "start": "22:30", "end": "23:10", "venue": "Rosenberg", "artist": "LiteFun"},
+  {"date": "2026-11-07", "start": "23:30", "end": "00:10", "venue": "Rosenberg", "artist": "BKPM"},
+  {"date": "2026-11-08", "start": "00:30", "end": "01:10", "venue": "Rosenberg", "artist": "Nom De Guerre"}
 ]
 </script>
 <script>
@@ -188,14 +185,14 @@ const addDays = (d,n) => { const x = new Date(d + "T00:00:00Z"); x.setUTCDate(x.
 const shortDay = d => ({4:"Thurs",5:"Fri",6:"Sat"})[new Date(d + "T00:00:00Z").getUTCDay()] || dayLabel(d);
 const dayLabel = d => new Date(d + "T00:00:00Z").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});
 const fmt = m => pad(Math.floor(m/60) % 24) + ":" + pad(m % 60);
-const isFav = e => e.id in over ? over[e.id] : e.csvFav;
+const isFav = e => over[e.id] === true;
 
 function setData(rows){
   events = rows.filter(r => r.date && r.start && r.artist).map(r => {
     const [h,m] = r.start.split(":").map(Number), [eh,em] = (r.end || r.start).split(":").map(Number);
     const late = h < CUTOFF_HOUR, s = h*60 + m + (late ? 1440 : 0);
     return { id: [r.date,r.start,r.venue].join("|"), day: late ? addDays(r.date,-1) : r.date, s, e: s + ((eh*60+em - h*60 - m + 1440) % 1440),
-      start: r.start, end: r.end, venue: r.venue, artist: r.artist, link: r.link, csvFav: r.favourite === true || /^(y|yes|true|1)$/i.test(String(r.favourite)) };
+      start: r.start, end: r.end, venue: r.venue, artist: r.artist, link: r.link };
   });
   venues = [...new Set(events.map(e => e.venue))].sort((a,b) => (VENUES.indexOf(a)+1 || 99) - (VENUES.indexOf(b)+1 || 99));
   days = [...new Set(events.map(e => e.day))].sort();
@@ -217,7 +214,7 @@ function render(){
   const nv = new Set(list.map(e => e.venue)).size;
   $("info").textContent = `${list.length} show${list.length === 1 ? "" : "s"} across ${nv} venue${nv === 1 ? "" : "s"}`;
   const out = $("out");
-  if (!list.length){ out.innerHTML = `<p class="msg">${favOnly ? "No favourites here yet. Tap ☆ on a show, or set favourite to true in the data." : "No shows match these filters."}</p>`; return; }
+  if (!list.length){ out.innerHTML = `<p class="msg">${favOnly ? "No favourites here yet. Tap ☆ on a show to add one." : "No shows match these filters."}</p>`; return; }
   if ($("view").value === "list"){
     let h = "", last = -1;
     for (const e of list){
@@ -248,9 +245,8 @@ $("out").addEventListener("click", ev => {
 ["day","venue","view"].forEach(id => $(id).addEventListener("change", render));
 $("fav").addEventListener("click", () => {
   const on = $("fav").getAttribute("aria-pressed") !== "true";
-  $("fav").setAttribute("aria-pressed", on); $("fav").textContent = on ? "Show Favourites" : "Show All"; render();
+  $("fav").setAttribute("aria-pressed", on); $("fav").textContent = on ? "Favourites" : "All"; render();
 });
-$("reset").addEventListener("click", () => { over = {}; try { localStorage.removeItem(LS); } catch (x) {} render(); });
 
 setData(JSON.parse($("data").textContent));
 </script>
